@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class City {
 
 	@SerializedName("country")
-	public final int country;
+	public final String country;
 	@SerializedName("name")
 	public final String name;
 	@SerializedName("_id")
@@ -16,7 +16,7 @@ public class City {
 	@SerializedName("coord")
 	public final Coordinates coordinates;
 
-	public City(int country, String name, long id, Coordinates coordinates) {
+	public City(String country, String name, long id, Coordinates coordinates) {
 		this.country = country;
 		this.name = name;
 		this.id = id;

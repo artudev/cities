@@ -27,6 +27,7 @@ public class CityViewHolder extends RecyclerView.ViewHolder {
 	protected void bindData(final City city) {
 		Log.d(TAG, "bindData");
 
-		//TODO
+		String content = city.name.concat(", ").concat(city.country);
+		mTvItem.setText(content);
 	}
 }
