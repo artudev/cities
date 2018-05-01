@@ -19,7 +19,7 @@ public class ListActivity extends BaseActivity {
 
 		if (savedInstanceState == null) {
 			Log.d(TAG, "savedInstanceState is NULL");
-			//TODO
+			setContent(new ListFragment());
 		}
 	}
 
