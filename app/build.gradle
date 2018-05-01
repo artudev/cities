@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+
+android {
+	compileSdkVersion 27
+
+	dexOptions {
+		javaMaxHeapSize "4g"
+	}
+
+	defaultConfig {
+		applicationId "com.assigment.cities"
+		minSdkVersion 17
+		targetSdkVersion 27
+		versionCode 1
+		versionName "1.0"
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+	buildTypes {
+		def apkName = "cities"
+
+		applicationVariants.all { variant ->
+			appendVersionNameVersionCode(apkName, variant, defaultConfig)
+		}
+
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+		debug {
+			applicationIdSuffix ".debug"
+
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+			multiDexEnabled true
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+}
+
+def appendVersionNameVersionCode(apkName, variant, defaultConfig) {
+	variant.outputs.all {
+		if (variant.buildType.name == android.buildTypes.release.name) {
+			outputFileName = apkName + "-" + defaultConfig.versionName + "-" + variant.name + ".apk"
+		} else {
+			outputFileName = apkName + "-" + variant.name + ".apk"
+		}
+	}
+}
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+	androidTestImplementation 'com.android.support.test:runner:1.0.2'
+	androidTestImplementation 'com.android.support.test:rules:1.0.2'
+	androidTestImplementation 'junit:junit:4.12'
+	testImplementation 'com.android.support.test:runner:1.0.2'
+	testImplementation 'com.android.support.test:rules:1.0.2'
+	testImplementation 'junit:junit:4.12'
+
+	implementation 'com.android.support:appcompat-v7:27.1.1'
+	implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+	implementation 'com.android.support:design:27.1.1'
+	implementation 'com.android.support:recyclerview-v7:27.1.1'
+	implementation 'com.android.support:support-annotations:27.1.1'
+
+	implementation 'com.google.code.gson:gson:2.8.2'
+}
