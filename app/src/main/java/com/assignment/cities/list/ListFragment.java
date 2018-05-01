@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.assignment.cities.R;
+import com.assignment.cities.list.adapter.CityAdapter;
 import com.assignment.cities.model.City;
 import com.assignment.cities.parent.BaseFragment;
 
@@ -25,6 +26,7 @@ public class ListFragment extends BaseFragment implements ListContract.View {
 
 	private RecyclerView mRvList;
 	private ListContract.Presenter mPresenter;
+	private CityAdapter mCityAdapter;
 
 	public ListFragment() {
 	}
@@ -53,7 +55,8 @@ public class ListFragment extends BaseFragment implements ListContract.View {
 		mPresenter = new ListPresenter(this);
 
 		mRvList.setLayoutManager(new LinearLayoutManager(getContext()));
-		//TODO setadapter mRvList.setAdapter();
+		mCityAdapter = new CityAdapter();
+		mRvList.setAdapter(mCityAdapter);
 	}
 
 	@Override
