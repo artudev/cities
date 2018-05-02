@@ -1,11 +1,16 @@
 package com.assignment.cities.model;
 
+import android.support.annotation.NonNull;
+
+import com.assignment.cities.model.sort.Mappable;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Artur Kasprzak on 01.05.2018.
  */
-public class City {
+public class City implements Comparable<City>, Mappable {
+
+	public static final String ITEM_SEPARATOR = ", ";
 
 	@SerializedName("country")
 	public final String country;
@@ -21,5 +26,24 @@ public class City {
 		this.name = name;
 		this.id = id;
 		this.coordinates = coordinates;
+	}
+
+	public String getValue() {
+		return name.concat(ITEM_SEPARATOR).concat(country);
+	}
+
+	@Override
+	public String getKey() {
+		return getValue().toLowerCase();
+	}
+
+	@Override
+	public String getUniqueKey() {
+		return getKey().concat(String.valueOf(id));
+	}
+
+	@Override
+	public int compareTo(@NonNull City other) {
+		return getUniqueKey().compareTo(other.getUniqueKey());
 	}
 }
