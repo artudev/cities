@@ -3,7 +3,6 @@ package com.assignment.cities.model;
 import android.content.Context;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.assignment.cities.model.assets.AssetHelper;
 import com.assignment.cities.model.callback.OnCompleteCallback;
@@ -51,7 +50,7 @@ public class CitiesRepository {
 	}
 
 	public void initRepository(Context context, boolean doInBackground) {
-		Log.d(TAG, "initRepository");
+		System.out.println(TAG + "initRepository");
 		if (!shouldReload()) {
 			return;
 		}
@@ -64,7 +63,7 @@ public class CitiesRepository {
 
 	private void initRepositoryBackground(Context context) {
 
-		Log.d(TAG, "initRepositoryBackground");
+		System.out.println(TAG + "initRepositoryBackground");
 
 		CompletableHandler handler =
 				new CompletableHandler(Looper.getMainLooper(), getRepoInitCallback());
@@ -92,12 +91,12 @@ public class CitiesRepository {
 		setCities(cities);
 
 		long end = System.currentTimeMillis();
-		Log.d(TAG, "init time: " + (end - start));
+		System.out.println(TAG + "init time: " + (end - start));
 	}
 
 	private OnCompleteCallback getRepoInitCallback() {
 		return () -> {
-			Log.d(TAG, "repoInitCallback");
+			System.out.println(TAG + "repoInitCallback");
 
 			if (mOnRepoChangeListeners == null) {
 				return;
@@ -110,7 +109,7 @@ public class CitiesRepository {
 	}
 
 	public void setCities(List<City> cities) {
-		Log.d(TAG, "setCities");
+		System.out.println(TAG + "setCities");
 		synchronized (mListLock) {
 			mCities.clear();
 			mCities.addAll(cities);
@@ -118,7 +117,7 @@ public class CitiesRepository {
 	}
 
 	public List<City> getRawCities() {
-		Log.d(TAG, "getRawCities");
+		System.out.println(TAG + "getRawCities");
 		return mCities;
 	}
 

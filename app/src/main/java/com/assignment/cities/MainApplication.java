@@ -25,7 +25,7 @@ public class MainApplication extends Application {
 		if (mCitiesRepository == null) {
 			mCitiesRepository = new CitiesRepository(new AssetsHelperImpl(), new GsonHelperImpl());
 
-			mCitiesRepository.initRepository(getApplicationContext());
+			mCitiesRepository.initRepository(getApplicationContext(), true);
 		}
 		return mCitiesRepository;
 	}

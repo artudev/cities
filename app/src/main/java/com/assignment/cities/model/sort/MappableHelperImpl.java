@@ -2,11 +2,10 @@ package com.assignment.cities.model.sort;
 
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.assignment.cities.model.callback.OnCompleteCallback;
-import com.assignment.cities.model.listener.OnTreeChangeListener;
 import com.assignment.cities.model.handler.CompletableHandler;
+import com.assignment.cities.model.listener.OnTreeChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,6 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 
 	@Override
 	public void parseItems(List<T> items, boolean doInBackground) {
-		Log.d(TAG, "parseItems");
 		if (!canReload()) {
 			return;
 		}
@@ -51,9 +49,8 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 	}
 
 	private void parseBackground(List<T> items) {
-		Log.d(TAG, "parseBackground");
-
-		CompletableHandler handler = new CompletableHandler(Looper.getMainLooper(), getTreeInitCallback());
+		CompletableHandler handler =
+				new CompletableHandler(Looper.getMainLooper(), getTreeInitCallback());
 
 		Runnable runnable = () -> {
 			setTreeMap(createTreeMap(items));
@@ -74,14 +71,14 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 		}
 
 		long end = System.currentTimeMillis();
-		Log.d(TAG, "init time: " + (end - start));
+		System.out.println(TAG + "init time: " + (end - start));
 
 		return treeMap;
 	}
 
 	@Override
 	public void setTreeMap(TreeMap<String, T> treeMap) {
-		Log.d(TAG, "setTreeMap: " + (treeMap != null));
+		System.out.println(TAG + "setTreeMap: " + (treeMap != null));
 		synchronized (mListLock) {
 			mTreeMap = treeMap;
 		}
@@ -115,7 +112,7 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 		List<T> cities = new ArrayList<>(keyMap.values());
 
 		long end = System.currentTimeMillis();
-		Log.d(TAG, "time: " + (end - start));
+		System.out.println(TAG + "time: " + (end - start));
 
 		return cities;
 	}
@@ -142,7 +139,7 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 
 	private OnCompleteCallback getTreeInitCallback() {
 		return () -> {
-			Log.d(TAG, "treeInitCallback");
+			System.out.println(TAG + "treeInitCallback");
 
 			if (mOnTreeChangeListeners == null) {
 				return;
