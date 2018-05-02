@@ -71,14 +71,13 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 		}
 
 		long end = System.currentTimeMillis();
-		System.out.println(TAG + "init time: " + (end - start));
+		System.out.println(TAG + " createTreeMap time: " + (end - start));
 
 		return treeMap;
 	}
 
 	@Override
 	public void setTreeMap(TreeMap<String, T> treeMap) {
-		System.out.println(TAG + "setTreeMap: " + (treeMap != null));
 		synchronized (mListLock) {
 			mTreeMap = treeMap;
 		}
@@ -112,7 +111,7 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 		List<T> cities = new ArrayList<>(keyMap.values());
 
 		long end = System.currentTimeMillis();
-		System.out.println(TAG + "time: " + (end - start));
+		System.out.println(TAG + " getItems time: " + (end - start));
 
 		return cities;
 	}
@@ -139,8 +138,6 @@ public class MappableHelperImpl<T extends Mappable> implements MappableHelper<T>
 
 	private OnCompleteCallback getTreeInitCallback() {
 		return () -> {
-			System.out.println(TAG + "treeInitCallback");
-
 			if (mOnTreeChangeListeners == null) {
 				return;
 			}

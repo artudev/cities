@@ -50,7 +50,6 @@ public class CitiesRepository {
 	}
 
 	public void initRepository(Context context, boolean doInBackground) {
-		System.out.println(TAG + "initRepository");
 		if (!shouldReload()) {
 			return;
 		}
@@ -62,8 +61,6 @@ public class CitiesRepository {
 	}
 
 	private void initRepositoryBackground(Context context) {
-
-		System.out.println(TAG + "initRepositoryBackground");
 
 		CompletableHandler handler =
 				new CompletableHandler(Looper.getMainLooper(), getRepoInitCallback());
@@ -91,12 +88,11 @@ public class CitiesRepository {
 		setCities(cities);
 
 		long end = System.currentTimeMillis();
-		System.out.println(TAG + "init time: " + (end - start));
+		System.out.println(TAG + " init time: " + (end - start));
 	}
 
 	private OnCompleteCallback getRepoInitCallback() {
 		return () -> {
-			System.out.println(TAG + "repoInitCallback");
 
 			if (mOnRepoChangeListeners == null) {
 				return;
@@ -109,7 +105,6 @@ public class CitiesRepository {
 	}
 
 	public void setCities(List<City> cities) {
-		System.out.println(TAG + "setCities");
 		synchronized (mListLock) {
 			mCities.clear();
 			mCities.addAll(cities);
@@ -117,7 +112,6 @@ public class CitiesRepository {
 	}
 
 	public List<City> getRawCities() {
-		System.out.println(TAG + "getRawCities");
 		return mCities;
 	}
 
