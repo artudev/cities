@@ -58,7 +58,7 @@ public class ListPresenter
 	@Override
 	public void onRepositoryChanged() {
 		Log.d(TAG, "onRepositoryChanged");
-		mCityHelper.initTree(mCitiesRepository.getRawCities());
+		mCityHelper.parseItems(mCitiesRepository.getRawCities(), true);
 	}
 
 	@Override

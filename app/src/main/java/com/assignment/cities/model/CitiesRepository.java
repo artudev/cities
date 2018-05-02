@@ -1,15 +1,18 @@
 package com.assignment.cities.model;
 
 import android.content.Context;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import com.assignment.cities.model.assets.AssetHelper;
 import com.assignment.cities.model.callback.OnCompleteCallback;
+import com.assignment.cities.model.handler.CompletableHandler;
 import com.assignment.cities.model.json.JsonHelper;
 import com.assignment.cities.model.listener.OnRepoChangeListener;
-import com.assignment.cities.model.runnable.CompletableHandler;
-import com.assignment.cities.model.runnable.InitRepositoryRunnable;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +50,15 @@ public class CitiesRepository {
 		mOnRepoChangeListeners.remove(listener);
 	}
 
-	public void initRepository(Context context) {
+	public void initRepository(Context context, boolean doInBackground) {
 		Log.d(TAG, "initRepository");
-		if (shouldReload()) {
+		if (!shouldReload()) {
+			return;
+		}
+		if (doInBackground) {
 			initRepositoryBackground(context);
+		} else {
+			retrieveRepository(context, CITIES_FILE);
 		}
 	}
 
@@ -58,13 +66,33 @@ public class CitiesRepository {
 
 		Log.d(TAG, "initRepositoryBackground");
 
-		CompletableHandler handler = new CompletableHandler(getRepoInitCallback());
+		CompletableHandler handler =
+				new CompletableHandler(Looper.getMainLooper(), getRepoInitCallback());
 
-		InitRepositoryRunnable runnable =
-				new InitRepositoryRunnable(this, mAssetHelper, mJsonHelper, CITIES_FILE, context,
-						handler);
+		Runnable runnable = () -> {
+			retrieveRepository(context, CITIES_FILE);
+			Message message = CompletableHandler.getCompleteMessage();
+			handler.sendMessage(message);
+		};
+
 		mInitThread = new Thread(runnable);
 		mInitThread.start();
+	}
+
+	private void retrieveRepository(Context context, String fileName) {
+
+		long start = System.currentTimeMillis();
+
+		String json = mAssetHelper.retrieveTextAsset(context, fileName);
+
+		Type listType = new TypeToken<List<City>>() {
+		}.getType();
+
+		List<City> cities = mJsonHelper.parseJsonToObjectList(json, listType);
+		setCities(cities);
+
+		long end = System.currentTimeMillis();
+		Log.d(TAG, "init time: " + (end - start));
 	}
 
 	private OnCompleteCallback getRepoInitCallback() {
@@ -104,7 +132,7 @@ public class CitiesRepository {
 	}
 
 	public boolean isGenerated() {
-		return !mCities.isEmpty() && !isRunning();
+		return !mCities.isEmpty();
 	}
 
 	public boolean isRunning() {

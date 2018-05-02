@@ -8,7 +8,7 @@ import java.util.TreeMap;
  */
 public interface MappableHelper<T> {
 
-	void initTree(List<T> cities);
+	void parseItems(List<T> cities, boolean doInBackground);
 
 	void setTreeMap(TreeMap<String, T> treeMap);
 

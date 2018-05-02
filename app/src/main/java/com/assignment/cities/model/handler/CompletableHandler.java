@@ -1,6 +1,7 @@
-package com.assignment.cities.model.runnable;
+package com.assignment.cities.model.handler;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import com.assignment.cities.model.callback.OnCompleteCallback;
@@ -13,6 +14,11 @@ public class CompletableHandler extends Handler {
 	public static final int WHAT_INIT_COMPLETED = 1;
 
 	private OnCompleteCallback mCallback;
+
+	public CompletableHandler(Looper looper, OnCompleteCallback callback) {
+		super(looper);
+		mCallback = callback;
+	}
 
 	public CompletableHandler(OnCompleteCallback callback) {
 		mCallback = callback;
