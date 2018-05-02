@@ -11,7 +11,7 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 		<activity
-			android:name=".list.ListActivity"
+			android:name=".MainActivity"
 			android:launchMode="singleTask"
 			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
@@ -20,6 +20,10 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+
+		<meta-data
+			android:name="com.google.android.geo.API_KEY"
+			android:value="AIzaSyCHacXNkBC4P2pLGroTSav5qvOdG3MqDyg"/>
 	</application>
 
 </manifest>
