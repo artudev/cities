@@ -70,6 +70,11 @@ public class ListPresenter
 	}
 
 	@Override
+	public void itemClicked(City city) {
+		mView.showMap(city);
+	}
+
+	@Override
 	public void onStart() {
 		Log.d(TAG, "onStart");
 		mCitiesRepository.addListener(this);

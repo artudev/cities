@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import com.assignment.cities.MainApplication;
 import com.assignment.cities.R;
 import com.assignment.cities.list.adapter.CityAdapter;
+import com.assignment.cities.map.MapFragment;
 import com.assignment.cities.model.CitiesRepository;
 import com.assignment.cities.model.City;
 import com.assignment.cities.model.sort.MappableHelperImpl;
@@ -93,7 +94,9 @@ public class ListFragment extends BaseFragment implements ListContract.View {
 		mPresenter = new ListPresenter(this, citiesRepository, cityHelper);
 
 		mRvList.setLayoutManager(new LinearLayoutManager(getContext()));
-		mCityAdapter = new CityAdapter();
+
+		mCityAdapter = new CityAdapter(mPresenter);
+
 		mRvList.setAdapter(mCityAdapter);
 	}
 
@@ -129,5 +132,11 @@ public class ListFragment extends BaseFragment implements ListContract.View {
 	@Override
 	public boolean isUnavailable() {
 		return isDetached() || isRemoving();
+	}
+
+	@Override
+	public void showMap(City city) {
+		BaseFragment baseFragment = MapFragment.newInstance(city);
+		getBaseActivity().setChildContent(baseFragment);
 	}
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.assignment.cities.R;
+import com.assignment.cities.list.listener.OnItemClickListener;
 import com.assignment.cities.model.City;
 
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 	private static final String TAG = CityAdapter.class.getSimpleName();
 
 	private List<City> mCities;
+	private OnItemClickListener<City> mListener;
 
-	public CityAdapter() {
+	public CityAdapter(OnItemClickListener<City> listener) {
+		mListener = listener;
 		mCities = new ArrayList<>();
 	}
 
@@ -36,7 +39,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 	public CityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View itemView =
 				LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city, parent, false);
-		return new CityViewHolder(itemView);
+		return new CityViewHolder(itemView, mListener);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.assignment.cities.list;
 
+import com.assignment.cities.list.listener.OnItemClickListener;
 import com.assignment.cities.model.City;
 import com.assignment.cities.parent.BaseFragmentView;
 import com.assignment.cities.parent.BasePresenter;
@@ -18,9 +19,11 @@ public interface ListContract {
 		void setProgressBarVisibility(boolean visible);
 
 		boolean isUnavailable();
+
+		void showMap(City city);
 	}
 
-	interface Presenter extends BasePresenter {
+	interface Presenter extends BasePresenter, OnItemClickListener<City> {
 
 		void setQuery(String query);
 
