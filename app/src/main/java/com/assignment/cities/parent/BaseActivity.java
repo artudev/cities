@@ -133,7 +133,7 @@ public class BaseActivity extends AppCompatActivity
 			fragmentTransaction.addToBackStack(null);
 		}
 		fragmentTransaction.add(R.id.frameLayoutContent, newFragment);
-		fragmentTransaction.commitNow();
+		fragmentTransaction.commit();
 		hideKeyboard();
 	}
 
@@ -146,7 +146,7 @@ public class BaseActivity extends AppCompatActivity
 			fragmentTransaction.addToBackStack(null);
 		}
 		fragmentTransaction.replace(R.id.frameLayoutContent, newFragment);
-		fragmentTransaction.commitNow();
+		fragmentTransaction.commit();
 		hideKeyboard();
 	}
 

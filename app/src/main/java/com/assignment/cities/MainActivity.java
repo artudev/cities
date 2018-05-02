@@ -1,16 +1,17 @@
-package com.assignment.cities.list;
+package com.assignment.cities;
 
 import android.os.Bundle;
 import android.util.Log;
 
+import com.assignment.cities.list.ListFragment;
 import com.assignment.cities.parent.BaseActivity;
 
 /**
  * Created by Artur Kasprzak on 01.05.2018.
  */
-public class ListActivity extends BaseActivity {
+public class MainActivity extends BaseActivity {
 
-	private static final String TAG = ListActivity.class.getSimpleName();
+	private static final String TAG = MainActivity.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
