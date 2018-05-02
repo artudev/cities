@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.assignment.cities.R;
 import com.assignment.cities.model.City;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,16 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 	private static final String TAG = CityAdapter.class.getSimpleName();
 
 	private List<City> mCities;
-	private List<City> mCitiesDisplayed;
+
+	public CityAdapter() {
+		mCities = new ArrayList<>();
+	}
+
+	public void setCities(List<City> cities) {
+		mCities.clear();
+		mCities.addAll(cities);
+		notifyDataSetChanged();
+	}
 
 	@NonNull
 	@Override
@@ -31,11 +41,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
-		holder.bindData(mCitiesDisplayed.get(position));
+		holder.bindData(mCities.get(position));
 	}
 
 	@Override
 	public int getItemCount() {
-		return mCitiesDisplayed.size();
+		return mCities.size();
 	}
 }

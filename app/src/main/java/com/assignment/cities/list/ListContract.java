@@ -14,9 +14,15 @@ public interface ListContract {
 	interface View extends BaseFragmentView {
 
 		void displayList(List<City> list);
+
+		void setProgressBarVisibility(boolean visible);
+
+		boolean isUnavailable();
 	}
 
 	interface Presenter extends BasePresenter {
+
+		void setQuery(String query);
 
 		void onStart();
 
