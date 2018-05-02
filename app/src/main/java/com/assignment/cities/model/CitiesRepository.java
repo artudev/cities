@@ -1,9 +1,14 @@
 package com.assignment.cities.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.assignment.cities.model.assets.AssetHelper;
+import com.assignment.cities.model.callback.OnCompleteCallback;
 import com.assignment.cities.model.json.JsonHelper;
+import com.assignment.cities.model.listener.OnRepoChangeListener;
+import com.assignment.cities.model.runnable.CompletableHandler;
+import com.assignment.cities.model.runnable.InitRepositoryRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,40 +18,80 @@ import java.util.List;
  */
 public class CitiesRepository {
 
+	private static final String TAG = CitiesRepository.class.getSimpleName();
+
 	private static final String CITIES_FILE = "cities.json";
 
 	private final AssetHelper mAssetHelper;
 	private final JsonHelper mJsonHelper;
+
 	private List<City> mCities;
+
+	private List<OnRepoChangeListener> mOnRepoChangeListeners;
+
+	private final Object mListLock = new Object();
+	private Thread mInitThread;
 
 	public CitiesRepository(AssetHelper assetHelper, JsonHelper jsonHelper) {
 		mAssetHelper = assetHelper;
 		mJsonHelper = jsonHelper;
+		mOnRepoChangeListeners = new ArrayList<>();
 		mCities = new ArrayList<>();
 	}
 
-	public void retrieveCities(Context context, CitiesCallback callback) {
+	public void addListener(OnRepoChangeListener listener) {
+		mOnRepoChangeListeners.add(listener);
+	}
+
+	public void removeListener(OnRepoChangeListener listener) {
+		mOnRepoChangeListeners.remove(listener);
+	}
+
+	public void initRepository(Context context) {
+		Log.d(TAG, "initRepository");
 		if (shouldReload()) {
-			retrieveCitiesBackground(context, callback);
-		} else {
-			callback.onListRetrieved(mCities);
+			initRepositoryBackground(context);
 		}
 	}
 
-	private void retrieveCitiesBackground(Context context, CitiesCallback callback) {
-		CitiesCallback repoCallback = cities -> {
-			setCities(cities);
-			callback.onListRetrieved(cities);
-		};
+	private void initRepositoryBackground(Context context) {
 
-		GetCitiesTask getCitiesTask =
-				new GetCitiesTask(context, mAssetHelper, mJsonHelper, repoCallback);
-		getCitiesTask.execute(CITIES_FILE);
+		Log.d(TAG, "initRepositoryBackground");
+
+		CompletableHandler handler = new CompletableHandler(getRepoInitCallback());
+
+		InitRepositoryRunnable runnable =
+				new InitRepositoryRunnable(this, mAssetHelper, mJsonHelper, CITIES_FILE, context,
+						handler);
+		mInitThread = new Thread(runnable);
+		mInitThread.start();
+	}
+
+	private OnCompleteCallback getRepoInitCallback() {
+		return () -> {
+			Log.d(TAG, "repoInitCallback");
+
+			if (mOnRepoChangeListeners == null) {
+				return;
+			}
+
+			for (OnRepoChangeListener listener : mOnRepoChangeListeners) {
+				listener.onRepositoryChanged();
+			}
+		};
 	}
 
 	public void setCities(List<City> cities) {
-		mCities.clear();
-		mCities.addAll(cities);
+		Log.d(TAG, "setCities");
+		synchronized (mListLock) {
+			mCities.clear();
+			mCities.addAll(cities);
+		}
+	}
+
+	public List<City> getRawCities() {
+		Log.d(TAG, "getRawCities");
+		return mCities;
 	}
 
 	/**
@@ -55,6 +100,14 @@ public class CitiesRepository {
 	 * when list is empty.
 	 */
 	private boolean shouldReload() {
-		return mCities.isEmpty();
+		return mCities.isEmpty() && !isRunning();
+	}
+
+	public boolean isGenerated() {
+		return !mCities.isEmpty() && !isRunning();
+	}
+
+	public boolean isRunning() {
+		return mInitThread != null && mInitThread.isAlive();
 	}
 }
