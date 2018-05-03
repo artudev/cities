@@ -1,5 +1,9 @@
 # Cities - Assignment
 
+**GitHub**
+
+[Repository] https://github.com/artudev/cities
+
 ### Tech
 
 **Assets**
@@ -43,4 +47,5 @@ MIT
 
    [Mockito]: <http://site.mockito.org/>
    [Gson]: <https://github.com/google/gson>
+   [Repository]: <https://github.com/artudev/cities/tree/master>
   
