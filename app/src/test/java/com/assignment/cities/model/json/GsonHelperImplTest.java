@@ -18,7 +18,7 @@ public class GsonHelperImplTest {
 	private GsonHelperImpl mGsonHelper;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		mGsonHelper = new GsonHelperImpl();
 	}
 

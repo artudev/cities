@@ -20,7 +20,7 @@ public class MappableHelperImplTest {
 	private String mQuery;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		mMappableHelper = new MappableHelperImpl<>();
 
 		mQuery = "a";
@@ -53,6 +53,14 @@ public class MappableHelperImplTest {
 		Assert.assertEquals(2, result.size());
 		Assert.assertEquals(mFirst, result.get(0));
 		Assert.assertEquals(mMiddle, result.get(1));
+	}
+
+	@Test
+	public void getItemsQueryInvalid() {
+
+		List<Text> result = mMappableHelper.getItems("d");
+
+		Assert.assertEquals(0, result.size());
 	}
 
 	@Test
