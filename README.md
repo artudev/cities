@@ -1,8 +1,29 @@
-# Cities - Assignment
+# CITIES 
 
 **GitHub**
 
 [Repository] https://github.com/artudev/cities
+
+### Rules
+
+We have a list of cities containing around 200k entries in JSON format. Each entry contains the following information:
+{
+ "country":"UA",
+ "name":"Hurzuf",
+ "_id":707860,
+  "coord":{
+   "lon":34.283333,
+   "lat":44.549999
+  }
+}
+
+* Rule 1: Display this of cities on a scrollable list in alphabetic order (city first, country after)
+** "Denver, US" should appear before, "Sydney, Australia"
+** "Anaheim, US" should appear before "Denver, US"
+* Rule 2: Be able to filter the results by a given prefix string, over the city.
+* Rule 3: Selecting a city will show a map centered on the coordinates associated with the city.
+* Rule 4: Optimize for fast searches, loading time of the app is not so important
+* Tech stack: Only 3rd party libraries allowed: GSON
 
 ### Tech
 
